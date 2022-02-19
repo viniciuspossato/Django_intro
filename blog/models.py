@@ -2,10 +2,16 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+class PublishedManager(models.Manager):
+
+    # Aqui, estamos preparando uma função que nos permite
+    def get_queryset(self):
+        return super(PublishedManager, self).get_queryset().filter(status = 'publicado')
+
 class Post(models.Model):
     STATUS = (
         ('rascunho','Rascunho'),
-        ('publicar','Publicar'),
+        ('publicado','Publicado'),
     )
 
     # O que existe em nossa postagem? Título, Autor, Slug e o Corpo/Conteúdo...
@@ -16,7 +22,7 @@ class Post(models.Model):
                               on_delete=models.CASCADE)
     conteudo = models.TextField() # Campo com muito conteúdo
 
-    publicado = models.DateField(default = timezone.now()) # Data de publicação: Agora!
+    publicado = models.DateField(default = timezone.now) # Data de publicação: Agora!
     criado = models.DateField(auto_now_add = True) # Apenas na criação ele será setado
     alterado = models.DateField(auto_now=True) # Sempre que for atualizado, a hora muda
 
@@ -29,6 +35,10 @@ class Post(models.Model):
 
     def __str__(self): # Dando às postagens os seus títulos
         return '{} - {}'.format(self.titulo,self.autor)
+
+    # Inserindo o novo manager (Published)
+    objects = models.Manager()  # Permitindo com que o objects possa ser utilizado também
+    published = PublishedManager()
 
 # Create your models here.
 

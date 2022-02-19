@@ -16,6 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+# Ajustes para utilizar enquanto desenvolvimento apenas, pois quando em produção, DEBUG = false
+from django.conf import settings  # Iremos importar informações do script settings
+from django.conf.urls.static import static
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls)
 ]
+
+if settings.DEBUG:
+    #Fazemos isso para abrirmos as imagens enquanto o projeto não está em produção
+    urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
