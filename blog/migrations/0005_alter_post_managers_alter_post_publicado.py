@@ -5,7 +5,6 @@ import django.utils.timezone
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('blog', '0004_alter_post_managers_alter_post_publicado'),
     ]

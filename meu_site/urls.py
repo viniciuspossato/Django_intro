@@ -14,14 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 # Ajustes para utilizar enquanto desenvolvimento apenas, pois quando em produção, DEBUG = false
 from django.conf import settings  # Iremos importar informações do script settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls),
+    path('', include('blog.urls')) # Adicionado junto ao outro urls.py
 ]
 
 if settings.DEBUG:
